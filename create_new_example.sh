@@ -28,5 +28,5 @@ mv hello.c ${MODULE}.c
 sed -i "s/hello/${MODULE}/g" ${MODULE}.c
 sed -i "s/hello/${MODULE}/g" Makefile
 
-cd -
+cd ..
 
