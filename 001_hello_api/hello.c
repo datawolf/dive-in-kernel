@@ -1,3 +1,8 @@
+/***********************************************
+ * module : hello 
+ * 
+ * datawolf (wanglong@cse.buaa.edu.cn)
+ **********************************************/
 #include <linux/module.h>
 #include <linux/kernel.h>
 #include <linux/init.h>
