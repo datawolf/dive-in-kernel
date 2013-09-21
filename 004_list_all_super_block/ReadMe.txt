@@ -39,3 +39,115 @@ The registered filesystem is : tmpfs
 The registered filesystem is : ext4
 The registered filesystem is : ext4
 
+The filesystem's name is : ext4
+The super_block filesystem name is  : ext4
+The registered filesystem is : binfmt_misc
+The address of file system type (binfmt_misc) is : ffffffff81ac9fe0
+The address of file system type (binfmt_misc) next  is : ffffffff81acb520
+
+
+The registered filesystem is :  x¨Åˇˇˇˇ x¨Åˇˇˇˇ
+The address of file system type ( x¨Åˇˇˇˇ x¨Åˇˇˇˇ) is : ffffffff81ac7820
+The address of file system type ( x¨Åˇˇˇˇ x¨Åˇˇˇˇ) next  is : (null)
+
+
+The registered filesystem is : sysfs
+The address of file system type (sysfs) is : ffffffff81acae20
+The address of file system type (sysfs) next  is : ffffffff81acb160
+
+
+The registered filesystem is : rootfs
+The address of file system type (rootfs) is : ffffffff81acb160
+The address of file system type (rootfs) next  is : ffffffff81ac9020
+
+
+The registered filesystem is : bdev
+The address of file system type (bdev) is : ffffffff81ac9020
+The address of file system type (bdev) next  is : ffffffff81aca760
+
+
+The registered filesystem is : proc
+The address of file system type (proc) is : ffffffff81aca760
+The address of file system type (proc) next  is : ffffffff81a9cec0
+
+
+The registered filesystem is : tmpfs
+The address of file system type (tmpfs) is : ffffffff81aba060
+The address of file system type (tmpfs) next  is : ffffffff81af6100
+
+
+The registered filesystem is : devtmpfs
+The address of file system type (devtmpfs) is : ffffffff81af6100
+The address of file system type (devtmpfs) next  is : ffffffff81ac9fe0
+
+
+The registered filesystem is : sockfs
+The address of file system type (sockfs) is : ffffffff81b06740
+The address of file system type (sockfs) next  is : ffffffff81afc0e0
+
+
+The registered filesystem is : debugfs
+The address of file system type (debugfs) is : ffffffff81acb520
+The address of file system type (debugfs) next  is : ffffffff81accce0
+
+
+The registered filesystem is : pipefs
+The address of file system type (pipefs) is : ffffffff81ac7d40
+The address of file system type (pipefs) next  is : ffffffff81ac94a0
+
+
+The registered filesystem is : anon_inodefs
+The address of file system type (anon_inodefs) is : ffffffff81ac94a0
+The address of file system type (anon_inodefs) next  is : ffffffff81acae80
+
+
+The registered filesystem is : devpts
+The address of file system type (devpts) is : ffffffff81acae80
+The address of file system type (devpts) next  is : ffffffff81acaf20
+
+
+The registered filesystem is : hugetlbfs
+The address of file system type (hugetlbfs) is : ffffffff81acb3a0
+The address of file system type (hugetlbfs) next  is : ffffffff81acb3e0
+
+
+The registered filesystem is : mqueue
+The address of file system type (mqueue) is : ffffffff81acbce0
+The address of file system type (mqueue) next  is : ffffffffa01afe20
+
+
+The registered filesystem is : selinuxfs
+The address of file system type (selinuxfs) is : ffffffff81ad0920
+The address of file system type (selinuxfs) next  is : (null)
+
+
+The registered filesystem is : usbfs
+The address of file system type (usbfs) is : ffffffff81afc0e0
+The address of file system type (usbfs) next  is : ffffffff81ac7d40
+
+
+The registered filesystem is : securityfs
+The address of file system type (securityfs) is : ffffffff81accce0
+The address of file system type (securityfs) next  is : ffffffff81b06740
+
+
+The registered filesystem is : sysfs
+The address of file system type (sysfs) is : ffffffff81acae20
+The address of file system type (sysfs) next  is : ffffffff81acb160
+
+
+The registered filesystem is : tmpfs
+The address of file system type (tmpfs) is : ffffffff81aba060
+The address of file system type (tmpfs) next  is : ffffffff81af6100
+
+
+The registered filesystem is : ext4
+The address of file system type (ext4) is : ffffffffa01afe20
+The address of file system type (ext4) next  is : (null)
+
+
+The registered filesystem is : ext4
+The address of file system type (ext4) is : ffffffffa01afe20
+The address of file system type (ext4) next  is : (null)
+
+

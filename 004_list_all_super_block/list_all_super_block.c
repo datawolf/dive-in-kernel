@@ -22,13 +22,18 @@ static int __init list_all_super_block_init(void)
 	list_for_each_entry(sb, &first_sb->s_list, s_list)
 	{
 		printk(KERN_ALERT "The registered filesystem is : %s\n", sb->s_type->name);
+		printk(KERN_ALERT "The address of file system type (%s) is : %p\n", 
+				sb->s_type->name, sb->s_type);
+		printk(KERN_ALERT "The address of file system type (%s) next  is : %p\n", 
+				sb->s_type->name, sb->s_type->next);
+		printk(KERN_ALERT "\n\n");
 	}
 	return 0;
 }
 
 static void __exit list_all_super_block_exit(void)
 {
-	printk(KERN_ALERT "Goodbye list_all_super_block\n");
+	printk(KERN_ALERT "[Goodbye] list_all_super_block\n");
 }
 
 module_init(list_all_super_block_init);
