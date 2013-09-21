@@ -9,11 +9,18 @@ static int __init list_super_block_init(void)
 {
 	const	char *name = "ext4";
 	struct super_block *sb;
-
+	//找到ext4的文件系统类型描述结构体
 	struct file_system_type *fst = get_fs_type(name);
 
 	printk(KERN_ALERT "The filesystem's name is : %s\n", fst->name);
+	while(fst->next != NULL)
+	{
+		printk(KERN_ALERT "The next filesystem's name is : %s\n", fst->name);
+		fst = fst->next;
+	}
 	
+	printk(KERN_ALERT "******************************************");
+	//遍历所有的ext4超级快
 	list_for_each_entry(sb, &fst->fs_supers, s_instances)
 	{
 		printk(KERN_ALERT "The %s filesystem  is : %s\n", name, sb->s_id);
