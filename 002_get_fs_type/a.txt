@@ -1,0 +1,25 @@
+由于修改了内核文件fs/filesysems.c中的find_filesystem函数，所以内核输出如下；
+
+
+address: ffffffff81acae20	 file system name: sysfs	 the next: ffffffff81acb160
+address: ffffffff81acb160	 file system name: rootfs	 the next: ffffffff81ac9020
+address: ffffffff81ac9020	 file system name: bdev	 the next: ffffffff81aca760
+address: ffffffff81aca760	 file system name: proc	 the next: ffffffff81a9cec0
+address: ffffffff81a9cec0	 file system name: cgroup	 the next: ffffffff81a9df80
+address: ffffffff81a9df80	 file system name: cpuset	 the next: ffffffff81aba060
+address: ffffffff81aba060	 file system name: tmpfs	 the next: ffffffff81af6100
+address: ffffffff81af6100	 file system name: devtmpfs	 the next: ffffffff81ac9fe0
+address: ffffffff81ac9fe0	 file system name: binfmt_misc	 the next: ffffffff81acb520
+address: ffffffff81acb520	 file system name: debugfs	 the next: ffffffff81accce0
+address: ffffffff81accce0	 file system name: securityfs	 the next: ffffffff81b06740
+address: ffffffff81b06740	 file system name: sockfs	 the next: ffffffff81afc0e0
+address: ffffffff81afc0e0	 file system name: usbfs	 the next: ffffffff81ac7d40
+address: ffffffff81ac7d40	 file system name: pipefs	 the next: ffffffff81ac94a0
+address: ffffffff81ac94a0	 file system name: anon_inodefs	 the next: ffffffff81acae80
+address: ffffffff81acae80	 file system name: devpts	 the next: ffffffff81acaf20
+address: ffffffff81acaf20	 file system name: ramfs	 the next: ffffffff81acb3a0
+address: ffffffff81acb3a0	 file system name: hugetlbfs	 the next: ffffffff81acb3e0
+address: ffffffff81acb3e0	 file system name: iso9660	 the next: ffffffff81acbce0
+address: ffffffff81acbce0	 file system name: mqueue	 the next: ffffffffa01afe20
+address: ffffffffa01afe20	 file system name: ext4	 the next: ffffffffa04ed440
+The filesystem's name is : ext4
