@@ -112,6 +112,26 @@ static int __init atomic_t_init(void)
 		num ++;
 	}
 	printk(KERN_ALERT "num = %d\n", num);
+
+
+	printk(KERN_ALERT "\n\n******* TEST atomic_sub_and_test ****************\n");
+	atomic_set(&at, 6);
+	printk(KERN_ALERT "after atomic_set(&at, 6). at.counter = %d\n", atomic_read(&at));
+	ret = atomic_sub_and_test(3, &at);
+	printk(KERN_ALERT "after atomic_sub_and_test(3, &at). at.counter = %d\n", atomic_read(&at));
+	printk(KERN_ALERT "ret = %d\n", ret);
+	ret = atomic_sub_and_test(3, &at);
+	printk(KERN_ALERT "after atomic_sub_and_test(3, &at). at.counter = %d\n", atomic_read(&at));
+	printk(KERN_ALERT "ret = %d\n", ret);
+
+
+	printk(KERN_ALERT "\n\n******* TEST atomic_sub_return****************\n");
+	atomic_set(&at, 6);
+	printk(KERN_ALERT "after atomic_set(&at, 6). at.counter = %d\n", atomic_read(&at));
+	ret = atomic_sub_return(3, &at);
+	printk(KERN_ALERT "after atomic_sub_return(3, &at). at.counter = %d\n", atomic_read(&at));
+	printk(KERN_ALERT "ret = %d\n", ret);
+
 	return 0;
 }
 
