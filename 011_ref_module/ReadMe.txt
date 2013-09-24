@@ -1,6 +1,8 @@
 ref_module 实现模块a使用模块b，同时将模块b的引用计数加一。
 
 
+linux 2.6.35 中include/linux/module.h中没有ref_module的声明，需要自己添加。
+
 [root@localhost 011_ref_module]# lsmod  | head -4
 Module                  Size  Used by
 test_module              847  1
