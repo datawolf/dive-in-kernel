@@ -1,4 +1,4 @@
-#!/bin/env bash
+#!/usr/bin/env bash
 
 # This shell scripte create a new directory which name is $1
 # and also create two files.
