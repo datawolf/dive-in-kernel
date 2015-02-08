@@ -1,5 +1,5 @@
 ifneq ($(KERNELRELEASE), )
-obj-m := hello.o
+obj-m := list_module.o
 else
 KERNELDIR ?=/lib/modules/$(shell uname -r)/build
 PWD := $(shell pwd)
@@ -10,11 +10,11 @@ clean:
 load:
 	@sudo dmesg -c > /dev/null
 	@echo "#############[START] #################"
-	@sudo insmod hello.ko
+	@sudo insmod list_module.ko
 	@sudo dmesg
 unload:
 	@sudo dmesg -c > /dev/null
-	@sudo rmmod hello
+	@sudo rmmod list_module
 	@echo "#############[ END ] #################"
 test:
 	@make load
