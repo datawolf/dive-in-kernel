@@ -9,7 +9,7 @@
 # then we can change the c file to complete some job.
 # and type "make" to compile the module.
 # 
-# author: datawolf (wanglong@cse.buaa.edu.cn, wanglong@l-cloud.org)
+# author: datawolf (datawolf@laoqinren.net)
 
 if [ $# -lt 2 ]; then
 	echo "Usage: $0 dirname module_name"

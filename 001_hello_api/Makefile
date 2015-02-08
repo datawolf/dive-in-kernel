@@ -7,4 +7,16 @@ all:
 	$(MAKE) -C $(KERNELDIR) M=$(PWD) modules
 clean:
 	$(MAKE) -C $(KERNELDIR) M=$(PWD) clean 
+load:
+	@sudo dmesg -c > /dev/null
+	@echo "#############[START] #################"
+	@sudo insmod hello.ko
+	@sudo dmesg
+unload:
+	@sudo rmmod hello
+	@sudo dmesg -c
+	@echo "#############[ END ] #################"
+test:
+	@make load
+	@make unload
 endif

@@ -1,7 +1,7 @@
 /***********************************************
  * module : hello 
  * 
- * datawolf (wanglong@cse.buaa.edu.cn)
+ * datawolf (datawolf@laoqinren.net)
  **********************************************/
 #include <linux/module.h>
 #include <linux/kernel.h>
