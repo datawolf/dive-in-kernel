@@ -15,6 +15,7 @@ load:
 unload:
 	@sudo dmesg -c > /dev/null
 	@sudo rmmod hello
+	@sudo dmesg
 	@echo "#############[ END ] #################"
 test:
 	@make load
