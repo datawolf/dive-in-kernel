@@ -9,6 +9,9 @@ static int __init get_fs_type_init(void)
 	const	char *name = "ext4";
 
 	struct file_system_type *fst = get_fs_type(name);
+	if (fst == NULL){
+		printk(KERN_ALERT "NULL pointer error");
+	}
 
 	printk(KERN_ALERT "The filesystem's name is : %s\n", fst->name);
 	return 0;
