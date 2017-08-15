@@ -21,7 +21,7 @@ static int __init list_super_block_init(void)
 	
 	printk(KERN_ALERT "******************************************");
 	//遍历所有的ext4超级快
-	list_for_each_entry(sb, &fst->fs_supers, s_instances)
+	hlist_for_each_entry(sb, &fst->fs_supers, s_instances)
 	{
 		printk(KERN_ALERT "The %s filesystem  is : %s\n", name, sb->s_id);
 	}
