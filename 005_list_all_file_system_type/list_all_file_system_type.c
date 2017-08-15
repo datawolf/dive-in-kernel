@@ -11,16 +11,12 @@
 
 static int __init list_all_file_system_type_init(void)
 {
-	struct file_system_type **tmp;
-//	"file_systems"  address 
-//	ffffffff81acae20
-	struct file_system_type *fs = (struct file_system_type *)0xffffffff81acae20;
-	tmp = &fs;
-	while (*tmp){
-		printk(KERN_ALERT "file system type : %s\n", (*tmp)->name);
-		tmp = &(*tmp)->next;
+	struct file_system_type **fs = (struct file_system_type **)kallsyms_lookup_name("file_systems");
+	while (*fs){
+		printk(KERN_ALERT "file system type : %s\n", (*fs)->name);
+		fs = &(*fs)->next;
 	}
-	
+
 	return 0;
 }
 
