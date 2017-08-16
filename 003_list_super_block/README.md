@@ -6,31 +6,33 @@
 
 在linux的数据结构`file_system_type`中，有一个域`fs_supers`链接具有同一种类型的超级快。同一种文件系统类型的超级块通过`s_instances`链接。
 
-
-
 ## 使用方法
 
+默认情况下，显示所有类型为ext4的`super_block`信息
 
-## 示例
+```
+# dmesg -c
+# insmod list_super_block.ko
+# rmmod list_super_block
+# dmesg
+[ 1307.249846] The filesystem's name is : ext4
+[ 1307.249870] ******************************************
+[ 1307.249894] The ext4 filesystem  is : xvde1
+[ 1307.249915] The ext4 filesystem  is : xvda1
+[ 1315.040887] Goodbye list_super_block
+```
 
-查找列出所有已经挂载的ext4文件系统的超级快信息：
+在插入模块时，我们可以指定参数`fs`
 
-系统中的文件系统挂载情况如下
-[root@localhost]# mount
-
-/dev/mapper/VolGroup-lv_root on / type ext4 (rw)
-proc on /proc type proc (rw)
-sysfs on /sys type sysfs (rw)
-devpts on /dev/pts type devpts (rw,gid=5,mode=620)
-tmpfs on /dev/shm type tmpfs (rw)
-/dev/sdb1 on /boot type ext4 (rw)
-/dev/mapper/VolGroup-lv_home on /home type ext4 (rw)
-none on /proc/sys/fs/binfmt_misc type binfmt_misc (rw)
-
-
-总共有三个ext4文件系统，执行结果如下：
-The filesystem's name is : ext4
-The ext4 filesystem  is : dm-2
-The ext4 filesystem  is : sdb1
-The ext4 filesystem  is : dm-0
-
+```
+# dmesg -c
+# insmod list_super_block.ko  fs="proc"
+# rmmod list_super_block
+# dmesg
+[ 1509.699923] The filesystem's name is : proc
+[ 1509.700322] ******************************************
+[ 1509.700346] The proc filesystem  is : proc
+[ 1509.701017] The proc filesystem  is : proc
+[ 1509.701364] The proc filesystem  is : proc
+[ 1514.676233] Goodbye list_super_block
+```
