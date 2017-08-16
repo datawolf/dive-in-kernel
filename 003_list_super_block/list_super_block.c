@@ -13,11 +13,6 @@ static int __init list_super_block_init(void)
 	struct file_system_type *fst = get_fs_type(name);
 
 	printk(KERN_ALERT "The filesystem's name is : %s\n", fst->name);
-	while(fst->next != NULL)
-	{
-		printk(KERN_ALERT "The next filesystem's name is : %s\n", fst->name);
-		fst = fst->next;
-	}
 	
 	printk(KERN_ALERT "******************************************");
 	//遍历所有的ext4超级快
