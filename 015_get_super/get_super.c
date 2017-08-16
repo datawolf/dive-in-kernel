@@ -10,22 +10,22 @@
 #include <linux/fs_struct.h>
 #include <linux/path.h>
 #include <linux/sched.h>
+#include <linux/kdev_t.h>
+
 
 static int __init get_super_init(void)
 {
-	struct super_block *sb;
-	struct super_block *sb1;
-	struct block_device *bdev;
-	printk(KERN_ALERT "[Hello] get_super \n");
+	struct super_block *sb, *sb1;
 
 	sb = current->fs->pwd.dentry->d_sb;
-	bdev = sb->s_bdev;
 
-	printk(KERN_ALERT "the super block's dev number is %d.\n", sb->s_dev);
-	sb1 = get_super(bdev);
+	printk(KERN_ALERT "[Hello] get_super \n");
+	printk(KERN_ALERT "the super block's dev number is %d:%d.\n", MAJOR(sb->s_dev), MINOR(sb->s_dev));
 
+	sb1 = get_super(sb->s_bdev);
 	if (sb1 != NULL)
-		printk(KERN_ALERT "After the \"get_super\", the super block's dev number is %d.\n", sb1->s_dev);
+		printk(KERN_ALERT "After the \"get_super\", the super block's dev number is %d:%d.\n",
+				MAJOR(sb1->s_dev), MINOR(sb1->s_dev));
 	else
 		printk(KERN_ALERT "Can not be found! \n");
 
