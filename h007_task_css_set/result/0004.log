@@ -1,0 +1,58 @@
+[18617.109516] task name: bash[3489]
+[18617.109517] Process with the same css_set
+[18617.109518] name = [0]
+[18617.109519] ###### css_set info #######
+[18617.109520] css_set.refcount = 1
+[18617.109520] CGROUP_SUBSYS_COUNT = 11
+[18617.109522] subsys[0].refcnt = 1
+[18617.109523] subsys[0].cgroup.name = e6cec8a9f3ae0453c63da68c67f8761713ed1eff09a07f1cb644e5e9271c7f1c
+[18617.109524] subsys[0].cgroupfs_root.name = /
+[18617.109525] subsys[0].cgroup.parent.name = docker
+
+[18617.109527] subsys[1].refcnt = 1
+[18617.109529] subsys[1].cgroup.name = e6cec8a9f3ae0453c63da68c67f8761713ed1eff09a07f1cb644e5e9271c7f1c
+[18617.109530] subsys[1].cgroupfs_root.name = /
+[18617.109531] subsys[1].cgroup.parent.name = docker
+
+[18617.109532] subsys[2].refcnt = 1
+[18617.109533] subsys[2].cgroup.name = e6cec8a9f3ae0453c63da68c67f8761713ed1eff09a07f1cb644e5e9271c7f1c
+[18617.109534] subsys[2].cgroupfs_root.name = /
+[18617.109535] subsys[2].cgroup.parent.name = docker
+
+[18617.109537] subsys[3].refcnt = 1
+[18617.109538] subsys[3].cgroup.name = e6cec8a9f3ae0453c63da68c67f8761713ed1eff09a07f1cb644e5e9271c7f1c
+[18617.109539] subsys[3].cgroupfs_root.name = /
+[18617.109540] subsys[3].cgroup.parent.name = docker
+
+[18617.109541] subsys[4].refcnt = 1
+[18617.109542] subsys[4].cgroup.name = e6cec8a9f3ae0453c63da68c67f8761713ed1eff09a07f1cb644e5e9271c7f1c
+[18617.109544] subsys[4].cgroupfs_root.name = /
+[18617.109545] subsys[4].cgroup.parent.name = docker
+
+[18617.109546] subsys[5].refcnt = 1
+[18617.109547] subsys[5].cgroup.name = e6cec8a9f3ae0453c63da68c67f8761713ed1eff09a07f1cb644e5e9271c7f1c
+[18617.109548] subsys[5].cgroupfs_root.name = /
+[18617.109549] subsys[5].cgroup.parent.name = docker
+
+[18617.109551] subsys[6].refcnt = 1
+[18617.109552] subsys[6].cgroup.name = e6cec8a9f3ae0453c63da68c67f8761713ed1eff09a07f1cb644e5e9271c7f1c
+[18617.109554] subsys[6].cgroupfs_root.name = /
+[18617.109555] subsys[6].cgroup.parent.name = docker
+
+[18617.109557] subsys[7].refcnt = 3
+[18617.109558] subsys[7].cgroup.name = e6cec8a9f3ae0453c63da68c67f8761713ed1eff09a07f1cb644e5e9271c7f1c
+[18617.109559] subsys[7].cgroupfs_root.name = /
+[18617.109560] subsys[7].cgroup.parent.name = docker
+
+[18617.109562] subsys[8].refcnt = 1
+[18617.109563] subsys[8].cgroup.name = e6cec8a9f3ae0453c63da68c67f8761713ed1eff09a07f1cb644e5e9271c7f1c
+[18617.109564] subsys[8].cgroupfs_root.name = /
+[18617.109565] subsys[8].cgroup.parent.name = docker
+
+[18617.109567] subsys[9].refcnt = 1
+[18617.109568] subsys[9].cgroup.name = e6cec8a9f3ae0453c63da68c67f8761713ed1eff09a07f1cb644e5e9271c7f1c
+[18617.109569] subsys[9].cgroupfs_root.name = /
+[18617.109570] subsys[9].cgroup.parent.name = docker
+
+
+[18622.317079] [Goodbye] task_css_set

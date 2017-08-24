@@ -1,0 +1,145 @@
+make[1]: Entering directory `/root/dive-in-kernel/h007_task_css_set'
+#############[START] #################
+[19660.991727] [Hello] task_css_set 
+[19660.991730] task name: systemd[1]
+[19660.991731] Process with the same css_set
+[19660.991732] name = [0]
+[19660.991733] name = kworker/0:3[4345]
+[19660.991735] name = kworker/0:0[4100]
+[19660.991736] name = kworker/0:1[4005]
+[19660.991737] name = xfsaild/sda1[574]
+[19660.991738] name = xfs-cil/sda1[573]
+[19660.991738] name = xfs-conv/sda1[572]
+[19660.991739] name = xfs-data/sda1[571]
+[19660.991740] name = xfs-buf/sda1[570]
+[19660.991741] name = rpciod[480]
+[19660.991742] name = xfsaild/dm-0[391]
+[19660.991743] name = xfs-cil/dm-0[390]
+[19660.991744] name = xfs-conv/dm-0[389]
+[19660.991744] name = xfs-data/dm-0[388]
+[19660.991745] name = xfs-buf/dm-0[387]
+[19660.991746] name = xfs_mru_cache[386]
+[19660.991747] name = xfsalloc[385]
+[19660.991748] name = bioset[370]
+[19660.991749] name = kdmflush[369]
+[19660.991750] name = bioset[360]
+[19660.991751] name = kdmflush[359]
+[19660.991752] name = kworker/0:1H[297]
+[19660.991753] name = scsi_tmf_2[288]
+[19660.991754] name = kworker/u2:3[287]
+[19660.991754] name = scsi_eh_2[285]
+[19660.991755] name = scsi_tmf_1[284]
+[19660.991756] name = scsi_eh_1[283]
+[19660.991757] name = scsi_tmf_0[282]
+[19660.991758] name = scsi_eh_0[280]
+[19660.991759] name = ata_sff[260]
+[19660.991760] name = kauditd[93]
+[19660.991761] name = kworker/0:2[61]
+[19660.991761] name = deferwq[60]
+[19660.991762] name = kpsmoused[41]
+[19660.991763] name = kmpath_rdacd[40]
+[19660.991764] name = kthrotld[38]
+[19660.991765] name = crypto[29]
+[19660.991766] name = fsnotify_mark[28]
+[19660.991767] name = khugepaged[27]
+[19660.991768] name = ksmd[26]
+[19660.991769] name = kswapd0[25]
+[19660.991770] name = khungtaskd[24]
+[19660.991770] name = md[21]
+[19660.991771] name = khubd[20]
+[19660.991772] name = kblockd[19]
+[19660.991773] name = bioset[18]
+[19660.991774] name = kintegrityd[17]
+[19660.991775] name = writeback[16]
+[19660.991776] name = netns[15]
+[19660.991776] name = kdevtmpfs[14]
+[19660.991777] name = khelper[13]
+[19660.991778] name = watchdog/0[12]
+[19660.991779] name = rcuos/0[11]
+[19660.991780] name = rcu_sched[10]
+[19660.991780] name = rcuob/0[9]
+[19660.991782] name = rcu_bh[8]
+[19660.991782] name = migration/0[7]
+[19660.991783] name = kworker/u2:0[6]
+[19660.991784] name = kworker/0:0H[5]
+[19660.991785] name = ksoftirqd/0[3]
+[19660.991786] name = kthreadd[2]
+[19660.991786] ###### css_set info #######
+[19660.991787] css_set.refcount = 62
+[19660.991788] CGROUP_SUBSYS_COUNT = 11
+[19660.991788] subsys[0].refcnt = 1
+[19660.991789] subsys[0].cgroup.name = /
+[19660.991790] subsys[0].cgroupfs_root.name = /
+[19660.991791] subsys[0].cgroupfs_root.release_agent = 
+[19660.991792] subsys[0].childcgroup.name = docker
+
+[19660.991794] subsys[1].refcnt = 1
+[19660.991794] subsys[1].cgroup.name = /
+[19660.991795] subsys[1].cgroupfs_root.name = /
+[19660.991796] subsys[1].cgroupfs_root.release_agent = 
+[19660.991797] subsys[1].childcgroup.name = system.slice
+[19660.991797] subsys[1].childcgroup.name = user.slice
+[19660.991798] subsys[1].childcgroup.name = docker
+
+[19660.991799] subsys[2].refcnt = 1
+[19660.991800] subsys[2].cgroup.name = /
+[19660.991801] subsys[2].cgroupfs_root.name = /
+[19660.991801] subsys[2].cgroupfs_root.release_agent = 
+[19660.991802] subsys[2].childcgroup.name = system.slice
+[19660.991802] subsys[2].childcgroup.name = user.slice
+[19660.991803] subsys[2].childcgroup.name = docker
+
+[19660.991804] subsys[3].refcnt = 1
+[19660.991805] subsys[3].cgroup.name = /
+[19660.991806] subsys[3].cgroupfs_root.name = /
+[19660.991806] subsys[3].cgroupfs_root.release_agent = 
+[19660.991807] subsys[3].childcgroup.name = system.slice
+[19660.991808] subsys[3].childcgroup.name = user.slice
+[19660.991809] subsys[3].childcgroup.name = docker
+
+[19660.991810] subsys[4].refcnt = 1
+[19660.991811] subsys[4].cgroup.name = /
+[19660.991812] subsys[4].cgroupfs_root.name = /
+[19660.991812] subsys[4].cgroupfs_root.release_agent = 
+[19660.991813] subsys[4].childcgroup.name = system.slice
+[19660.991814] subsys[4].childcgroup.name = user.slice
+[19660.991815] subsys[4].childcgroup.name = docker
+
+[19660.991816] subsys[5].refcnt = 1
+[19660.991817] subsys[5].cgroup.name = /
+[19660.991817] subsys[5].cgroupfs_root.name = /
+[19660.991818] subsys[5].cgroupfs_root.release_agent = 
+[19660.991819] subsys[5].childcgroup.name = docker
+
+[19660.991821] subsys[6].refcnt = 1
+[19660.991821] subsys[6].cgroup.name = /
+[19660.991822] subsys[6].cgroupfs_root.name = /
+[19660.991823] subsys[6].cgroupfs_root.release_agent = 
+[19660.991823] subsys[6].childcgroup.name = docker
+
+[19660.991825] subsys[7].refcnt = 1
+[19660.991826] subsys[7].cgroup.name = /
+[19660.991826] subsys[7].cgroupfs_root.name = /
+[19660.991827] subsys[7].cgroupfs_root.release_agent = 
+[19660.991828] subsys[7].childcgroup.name = system.slice
+[19660.991828] subsys[7].childcgroup.name = user.slice
+[19660.991829] subsys[7].childcgroup.name = docker
+
+[19660.991831] subsys[8].refcnt = 1
+[19660.991831] subsys[8].cgroup.name = /
+[19660.991832] subsys[8].cgroupfs_root.name = /
+[19660.991833] subsys[8].cgroupfs_root.release_agent = 
+[19660.991834] subsys[8].childcgroup.name = docker
+
+[19660.991835] subsys[9].refcnt = 1
+[19660.991836] subsys[9].cgroup.name = /
+[19660.991836] subsys[9].cgroupfs_root.name = /
+[19660.991837] subsys[9].cgroupfs_root.release_agent = 
+[19660.991838] subsys[9].childcgroup.name = docker
+
+
+make[1]: Leaving directory `/root/dive-in-kernel/h007_task_css_set'
+make[1]: Entering directory `/root/dive-in-kernel/h007_task_css_set'
+[19661.026625] [Goodbye] task_css_set
+#############[ END ] #################
+make[1]: Leaving directory `/root/dive-in-kernel/h007_task_css_set'
