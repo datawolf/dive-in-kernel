@@ -1,0 +1,7 @@
+[ 9057.965130] [Hello] task_css_set 
+[ 9057.965134] task name: bash[3046]
+[ 9057.965135] Process with the same css_set
+[ 9057.965137] name = ig.py\xfffffffbG
+pconfig.pyc\xfffffffbH
+\xffffffa8config.pyo\xfffffffbI\xffffffe0handlers.py\xfffffffbJHhandlers.pyc\xfffffffb\xffffffb2`handlers.pyo\xfffffffb\xffffffb2[0]
+[ 9065.693132] [Goodbye] task_css_set
