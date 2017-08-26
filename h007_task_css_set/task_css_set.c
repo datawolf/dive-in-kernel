@@ -10,6 +10,7 @@
 #include <linux/sched.h>
 #include <linux/list.h>
 #include <linux/cgroup.h>
+#include <linux/kallsyms.h>
 
 static int pid = 1;
 module_param(pid, int, 1);
@@ -21,6 +22,7 @@ static int __init task_css_set_init(void)
 	struct task_struct *cur;
 	int i;
 	struct cgroup_subsys_state *css;
+	struct css_set *init_css = (struct css_set*)kallsyms_lookup_name("init_css_set");
 
 	printk(KERN_ALERT "[Hello] task_css_set \n");
 	printk("task name: %s[%d]\n", tk->comm, tk->pid);
@@ -32,6 +34,11 @@ static int __init task_css_set_init(void)
 
 	printk("###### css_set info #######\n");
 	printk("css_set.refcount = %d\n", tk->cgroups->refcount.counter);
+
+	if (tk->cgroups == init_css)
+		printk("@@@@@ in init cgroup @@@@@\n");
+	else
+		printk("@@@@@ NOT in init cgroup @@@@@\n");
 
 	printk("CGROUP_SUBSYS_COUNT = %d\n", CGROUP_SUBSYS_COUNT);
 	for (i = 0; i < CGROUP_SUBSYS_COUNT; i++) {
