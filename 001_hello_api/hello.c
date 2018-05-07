@@ -1,7 +1,7 @@
 /***********************************************
  * module : hello
  *
- * Wang Long (wanglong@laoqinren.net)
+ * Wang Long (w@laoqinren.net)
  **********************************************/
 #include <linux/module.h>
 #include <linux/kernel.h>
@@ -21,4 +21,3 @@ static void __exit hello_exit(void)
 module_init(hello_init);
 module_exit(hello_exit);
 MODULE_LICENSE("GPL");
-MODULE_AUTHOR("datawolf");
