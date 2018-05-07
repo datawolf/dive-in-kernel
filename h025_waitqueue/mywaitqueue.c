@@ -13,6 +13,7 @@
 
 static int read_count = 0;
 static struct task_struct *wait_thread;
+// Initializing waitqueue statically
 DECLARE_WAIT_QUEUE_HEAD(test_waitqueue);
 static int wait_queue_flag = 0;
 
@@ -21,7 +22,7 @@ static int my_waitqueue_show(struct seq_file *m, void *v)
 	printk(KERN_ALERT "Read function\n");
 	seq_printf(m, "read_count = %d\n", read_count);
 	wait_queue_flag = 1;
-	wake_up_interruptible(&test_waitqueue);
+	wake_up_interruptible(&test_waitqueue); // wake up only one process from wait queue
 	return 0;
 }
 
@@ -41,6 +42,7 @@ static int wait_function(void *unused)
 {
 	while(1) {
 		printk(KERN_ALERT "Waiting For Event...\n");
+		// sleep until wait_queue_flag != 0
 		wait_event_interruptible(test_waitqueue, wait_queue_flag != 0);
 		if (wait_queue_flag == 2) {
 			printk(KERN_ALERT "Event Came From Exit Function\n");
@@ -61,9 +63,6 @@ static int __init mywaitqueue_init(void)
 	pe = proc_create("test_wait_queue", 0644, NULL, &test_wait_queue_fops);
 	if (!pe)
 		return -ENOMEM;
-
-	// initialize wait queue
-	init_waitqueue_head(&test_waitqueue);
 
 	// Create the kernel thread with name "MyWaitThread"
 	wait_thread = kthread_create(wait_function, NULL, "MyWaitThread");
@@ -88,6 +87,5 @@ static void __exit mywaitqueue_exit(void)
 module_init(mywaitqueue_init);
 module_exit(mywaitqueue_exit);
 MODULE_LICENSE("GPL");
-MODULE_AUTHOR("datawolf");
 
 
