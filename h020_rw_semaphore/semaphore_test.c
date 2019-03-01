@@ -13,6 +13,9 @@
 #include <linux/uaccess.h>
 #include <linux/string.h>
 #include <linux/list.h>
+#include <linux/kthread.h>
+#include <linux/sched.h>
+#include <linux/delay.h>
 
 static DECLARE_RWSEM(rwsem);
 #define PROC_FILE  "rwsem_test"
@@ -28,31 +31,62 @@ struct rwsem_waiter {
 	enum rwsem_waiter_type type;
 };
 
-
 static int rwsem_show(struct seq_file *m, void *v)
 {
 	struct rwsem_waiter *waiter;
 	seq_printf(m, "semaphore.count: 0x%016lx\n", atomic_long_read(&rwsem.count));
 
-	list_for_each_entry(waiter, &rwsem.wait_list, list) {
+	if (!slist_empty(&rwsem.wait_list)) {
+		// The first waiter
+		waiter = list_entry(rwsem.wait_list.next, struct rwsem_waiter, list);
 		seq_printf(m, "\twait list: comm = %s, type = %s\n",
-				waiter->task->comm,
-				waiter->type == 0 ? "RWSEM_WAITING_FOR_WRITE" : "RWSEM_WAITING_FOR_READ");
+					waiter->task->comm,
+					waiter->type == 0 ? "RWSEM_WAITING_FOR_WRITE" : "RWSEM_WAITING_FOR_READ");
+
+		// The rest waiter if have
+		list_for_each_entry(waiter, rwsem.wait_list.next, list) {
+			seq_printf(m, "\twait list: comm = %s, type = %s\n",
+					waiter->task->comm,
+					waiter->type == 0 ? "RWSEM_WAITING_FOR_WRITE" : "RWSEM_WAITING_FOR_READ");
+		}
 	}
 	return 0;
+}
+
+int downread(void *data) {
+//	char *name = (char *)data;
+	down_read(&rwsem);
+	do_exit(0);
+}
+int upread(void *data) {
+//	char *name = (char *)data;
+	up_read(&rwsem);
+	do_exit(0);
+}
+
+int downwrite(void *data) {
+//	char *name = (char *)data;
+	down_write(&rwsem);
+	do_exit(0);
+}
+
+int upwrite(void *data) {
+//	char *name = (char *)data;
+	up_write(&rwsem);
+	do_exit(0);
 }
 
 static ssize_t rwsem_write(struct file *file, const char __user *buf,
 			size_t count, loff_t *offs)
 {
-
-	char cmd[20];
+	struct task_struct *task = NULL;
+	char cmd[40];
 
 	// up_read 8
 	// down_read 10
 	// up_write 9
 	// down write 11
-	if (count < 8 || count > 11 || *offs)
+	if (*offs)
 		return -EINVAL;
 
 	if (copy_from_user(cmd, buf, count))
@@ -61,16 +95,32 @@ static ssize_t rwsem_write(struct file *file, const char __user *buf,
 	cmd[count-1] = '\0';
 
 	if (strncmp(cmd, "down_read", 9) == 0) {
-		down_read(&rwsem);
+		task = kthread_create(downread, cmd+10, cmd+10);
+		if (IS_ERR(task)) {
+			return -EFAULT;
+		}
+		wake_up_process(task);
 	}
 	else if (strncmp(cmd, "up_read", 7) == 0) {
-		up_read(&rwsem);
+		task = kthread_create(upread, cmd+8, cmd+8);
+		if (IS_ERR(task)) {
+			return -EFAULT;
+		}
+		wake_up_process(task);
 	}
 	else if (strncmp(cmd, "down_write", 10) == 0) {
-		down_write(&rwsem);
+		task = kthread_create(downwrite, cmd+11, cmd+11);
+		if (IS_ERR(task)) {
+			return -EFAULT;
+		}
+		wake_up_process(task);
 	}
 	else if (strncmp(cmd, "up_write", 8) == 0) {
-		up_write(&rwsem);
+		task = kthread_create(upwrite, cmd+9, cmd+9);
+		if (IS_ERR(task)) {
+			return -EFAULT;
+		}
+		wake_up_process(task);
 	}
 
 	return count;
