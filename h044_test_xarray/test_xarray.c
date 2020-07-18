@@ -121,6 +121,9 @@ static int __init test_xarray_init(void)
 	xa_store_index(&array, 4100, 0);
 	xa_dump(&array);
 
+	printk(KERN_ALERT "##### set mark index=4100, mark=2 \n");
+	xa_set_mark(&array, 4100, 2);
+	xa_dump(&array);
 	return 0;
 }
 
