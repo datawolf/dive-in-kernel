@@ -101,12 +101,16 @@ struct mount {
 spinlock_t *orig_sb_lock;
 struct rw_semaphore *orig_namespace_sem;
 struct mem_cgroup **orig_root_mem_cgroup;
-#if !defined(MTOS_130)
-void (*orig_drop_slab)(void);
-#endif
+#if defined(MTOS_130)
+unsigned long (*orig_shrink_slab)(struct shrink_control *shrink,
+			  unsigned long nr_pages_scanned,
+			  unsigned long lru_pages);
+#else
 unsigned long (*orig_shrink_slab)(gfp_t gfp_mask, int nid,
 				struct mem_cgroup *memcg,
 				int priority);
+#endif
+
 void (*orig_drop_pagecache_sb)(struct super_block *, void *);
 void (*orig_put_super)(struct super_block *sb);
 struct mem_cgroup * (*orig_mem_cgroup_from_task)(struct task_struct *p);
@@ -120,14 +124,22 @@ struct mem_cgroup * (*orig_mem_cgroup_from_task)(struct task_struct *p);
         } while (0)
 
 
+void mtos_drop_slab(struct task_struct *tk)
+{
 #if defined(MTOS_130)
-void dropslab(struct task_struct *tk)
-{
-	//orig_drop_slab();
-}
+
+	// copy from: http://xr-hulk-k8s-node1931.gh.sankuai.com/mtkernel/mt20190308.130.862/source/fs/drop_caches.c#L42
+	int nr_objects;
+	struct shrink_control shrink = {
+		.gfp_mask = GFP_KERNEL,
+	};
+
+	do {
+		nr_objects = orig_shrink_slab(&shrink, 1000, 1000);
+	} while (nr_objects > 10);
 #else
-void dropslab(struct task_struct *tk)
-{
+
+	// ref: http://xr-hulk-k8s-node1931.gh.sankuai.com/mtkernel/v4.18-mt20191225.323/source/mm/vmscan.c#L563
 	int nid;
 	struct mem_cgroup *memcg = NULL;
 
@@ -144,8 +156,8 @@ void dropslab(struct task_struct *tk)
 	if (memcg)
 		css_put(&memcg->css); // put css
 	rcu_read_unlock();
-}
 #endif
+}
 
 void drop_one_sb(struct super_block * sb)
 {
@@ -171,7 +183,7 @@ void drop_one_sb(struct super_block * sb)
 	orig_put_super(sb); //put
 }
 
-void drop_pagecache(struct task_struct* tk)
+void mtos_drop_pagecache(struct task_struct* tk)
 {
 	struct mnt_namespace *ns = tk->nsproxy->mnt_ns;
 	struct mount *m;
@@ -215,9 +227,6 @@ static int __init drop_caches_init(void)
 	LOOKUP_SYMS(drop_pagecache_sb);
 	LOOKUP_SYMS(mem_cgroup_from_task);
 	LOOKUP_SYMS(shrink_slab);
-#if !defined(MTOS_130)
-	LOOKUP_SYMS(drop_slab);
-#endif
 	LOOKUP_SYMS(put_super);
 	orig_sb_lock = (spinlock_t *)kallsyms_lookup_name("sb_lock");
 	orig_namespace_sem = (struct rw_semaphore *)kallsyms_lookup_name("namespace_sem");
@@ -225,8 +234,8 @@ static int __init drop_caches_init(void)
 
 	printk(KERN_ALERT "[Hello] drop_caches \n");
 
-	drop_pagecache(tk);
-	dropslab(tk);
+	mtos_drop_pagecache(tk);
+	mtos_drop_slab(tk);
 	return 0;
 }
 
