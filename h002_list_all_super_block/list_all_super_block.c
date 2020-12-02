@@ -15,7 +15,7 @@ static int __init list_all_super_block_init(void)
 	struct super_block *sb;
 	struct list_head *super_blocks = (struct list_head *)kallsyms_lookup_name("super_blocks");
 
-	printk(KERN_ALERT "[Hello] list_all_super_block \n");
+	printk(KERN_ALERT "[Hello] list_all_super_block %lx\n", super_blocks);
 	list_for_each_entry(sb, super_blocks, s_list) {
 		printk(KERN_INFO "dev_t: %d,%d fs_name: %s name: %s",
 			MAJOR(sb->s_dev),
