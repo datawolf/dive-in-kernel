@@ -13,12 +13,18 @@
 #include <linux/pid.h>
 #include <linux/memcontrol.h>
 #include <linux/nsproxy.h>
+#include <linux/proc_fs.h>
+#include <linux/init.h>
+#include <linux/seq_file.h>
+#include <linux/uaccess.h>
+#include <linux/string.h>
 
 static int pid = 1;
 module_param(pid, int, 0444);
 
-#if defined(MTOS_130)
+#define MTOS_DROP_CACHES_FILE "mtos_drop_caches"
 
+#if defined(MTOS_130)
 struct mnt_namespace {
 	atomic_t		count;
 	unsigned int		proc_inum;
@@ -171,7 +177,7 @@ void drop_one_sb(struct super_block * sb)
 
 	down_read(&sb->s_umount);
 	if (sb->s_root && (sb->s_flags & MS_BORN)) {
-		printk(KERN_INFO "dev_t: %d,%d fs_name: %s name: %s", 
+		printk(KERN_INFO "dev_t: %d,%d fs_name: %s name: %s\n", 
 			MAJOR(sb->s_dev),
 			MINOR(sb->s_dev),
 			sb->s_type->name,
@@ -201,9 +207,12 @@ void mtos_drop_pagecache(struct task_struct* tk)
 		sb = m->mnt.mnt_sb;
 		if (memcg != *orig_root_mem_cgroup){
 			//容器里，只drop 系统盘和数据盘
-			if (!strcmp("ext4", sb->s_type->name))
+			printk("IN Container\n");
+			//if (!strcmp("ext4", sb->s_type->name))
+			if (!strcmp("overlay", sb->s_type->name))
 				drop_one_sb(sb);
 		} else {
+			printk("IN Host\n");
 			//宿主机上，只drop sda和sdb
 			if (!strncmp("/dev/sda", m->mnt_devname, 8))
 				drop_one_sb(sb);
@@ -219,11 +228,65 @@ void mtos_drop_pagecache(struct task_struct* tk)
 	rcu_read_unlock();
 }
 
+static int mtos_drop_caches_show(struct seq_file *m, void *v)
+{
+	seq_printf(m, "MTOS feature\n");
+	return 0;
+}
+
+static ssize_t mtos_drop_caches_write(struct file *file, const char __user *buf,
+			size_t count, loff_t *ppos)
+{
+	char c;
+	if (count < 1 || count > 2 || *ppos)
+		return -EINVAL;
+
+	if (get_user(c, buf))
+		return -EFAULT;
+
+	if (c == '\n')
+		return 1;
+
+	printk("echo %c to /proc/mtos_drop_caches\n", c);
+	if (c == '1') {
+		mtos_drop_pagecache(current);
+	}
+	else if (c == '2') {
+		mtos_drop_slab(current);
+	}
+	else if (c == '3') {
+		mtos_drop_pagecache(current);
+		mtos_drop_slab(current);
+	}else {
+		return -EINVAL;
+	}
+
+	return 1;
+}
+
+static int mtos_drop_caches_open(struct inode *inode, struct file *filp)
+{
+	return single_open(filp, mtos_drop_caches_show, NULL);
+}
+
+static const struct file_operations mtos_drop_caches_fops = {
+	.open		= mtos_drop_caches_open,
+	.read		= seq_read,
+	.write		= mtos_drop_caches_write,
+	.llseek		= seq_lseek,
+	.release	= single_release,
+};
+
 static int __init drop_caches_init(void)
 {
 	pid_t p = (pid_t)pid; 
+	struct proc_dir_entry *pe;
 	struct task_struct *tk = get_pid_task(find_get_pid(p), PIDTYPE_PID);
 
+	pe = proc_create(MTOS_DROP_CACHES_FILE, 0644, NULL, &mtos_drop_caches_fops);
+	if (!pe)
+		return -ENOMEM;
+	
 	LOOKUP_SYMS(drop_pagecache_sb);
 	LOOKUP_SYMS(mem_cgroup_from_task);
 	LOOKUP_SYMS(shrink_slab);
@@ -232,8 +295,6 @@ static int __init drop_caches_init(void)
 	orig_namespace_sem = (struct rw_semaphore *)kallsyms_lookup_name("namespace_sem");
 	orig_root_mem_cgroup = (struct mem_cgroup **)kallsyms_lookup_name("root_mem_cgroup");
 
-	printk(KERN_ALERT "[Hello] drop_caches \n");
-
 	mtos_drop_pagecache(tk);
 	mtos_drop_slab(tk);
 	return 0;
@@ -241,7 +302,7 @@ static int __init drop_caches_init(void)
 
 static void __exit drop_caches_exit(void)
 {
-	printk(KERN_ALERT "[Goodbye] drop_caches\n");
+	remove_proc_entry(MTOS_DROP_CACHES_FILE, NULL);
 }
 
 module_init(drop_caches_init);
