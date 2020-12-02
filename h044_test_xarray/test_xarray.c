@@ -124,6 +124,12 @@ static int __init test_xarray_init(void)
 	printk(KERN_ALERT "##### set mark index=4100, mark=2 \n");
 	xa_set_mark(&array, 4100, 2);
 	xa_dump(&array);
+
+
+	printk(KERN_ALERT "xa_mk_internal(-4095) = 0x%lx\n", xa_mk_internal(-4095));
+	printk(KERN_ALERT "xa_mk_internal(-1023) = 0x%lx\n", xa_mk_internal(-1023));
+	printk(KERN_ALERT "xa_mk_internal(-1024) = 0x%lx\n", xa_mk_internal(-1024));
+	printk(KERN_ALERT "xa_mk_internal(-530) = 0x%lx\n", xa_mk_internal(-530));
 	return 0;
 }
 

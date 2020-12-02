@@ -8,16 +8,19 @@
 #include <linux/init.h>
 #include <linux/radix-tree.h>
 
+//static RADIX_TREE(mytree, GFP_IOFS);
 static RADIX_TREE(mytree, GFP_KERNEL);
 
 static int __init radix_tree_example_init(void)
 {
 	char a[40] = "hello, radix tree";
+
 	radix_tree_insert(&mytree, 0, (void *)a);
 	radix_tree_insert(&mytree, 4, (void *)a);
+	radix_tree_preload(GFP_IOFS);
 	radix_tree_insert(&mytree, 131, (void *)a);
 	radix_tree_insert(&mytree, 4096, (void *)a);
-
+	radix_tree_preload_end();
 	radix_tree_lookup(&mytree, 1);
 	printk(KERN_ALERT "[Hello] radix_tree_example \n");
 	return 0;
