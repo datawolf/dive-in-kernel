@@ -31,7 +31,7 @@ clean:
 load:
 	@sudo dmesg -c > /dev/null
 	@echo "#############[START] #################"
-	@sudo insmod drop_caches.ko pid=10251
+	@sudo insmod drop_caches.ko
 	@sudo dmesg
 unload:
 	@sudo dmesg -c > /dev/null
