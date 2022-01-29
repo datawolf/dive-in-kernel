@@ -295,8 +295,10 @@ static int __init drop_caches_init(void)
 	orig_namespace_sem = (struct rw_semaphore *)kallsyms_lookup_name("namespace_sem");
 	orig_root_mem_cgroup = (struct mem_cgroup **)kallsyms_lookup_name("root_mem_cgroup");
 
-	mtos_drop_pagecache(tk);
-	mtos_drop_slab(tk);
+	if (tk) {
+		mtos_drop_pagecache(tk);
+		mtos_drop_slab(tk);
+	}
 	return 0;
 }
 
