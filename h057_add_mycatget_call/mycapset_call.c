@@ -24,11 +24,6 @@
 
 struct kmem_cache **ori_cred_jar;
 int *ori_suid_dumpable;
-struct trace_event_class event_class_syscall_enter;
-struct trace_event_class event_class_syscall_exit;
-struct trace_event_functions enter_syscall_print_funcs;
-struct trace_event_functions exit_syscall_print_funcs;
-
 
 void (*orig_free_uid)(struct user_struct *);
 int (*orig_security_prepare_creds)(struct cred *new, const struct cred *old, gfp_t gfp);
@@ -37,7 +32,6 @@ void (*orig_security_cred_free)(struct cred *cred);
 void (*orig_key_fsuid_changed)(struct task_struct *tsk);
 void (*orig_key_fsgid_changed)(struct task_struct *tsk);
 void (*orig_proc_id_connector)(struct task_struct *task, int which_id);
-
 const struct cred * (*orig_get_task_cred)(struct task_struct *);
 struct task_struct* (*orig_find_task_by_vpid)(pid_t nr);
 void (*orig___audit_log_capset)(const struct cred *new, const struct cred *old);
@@ -360,8 +354,8 @@ void __put_cred_hulk(struct cred *cred, struct task_struct *t)
 }
 
 /* 添加自己的系统调用函数 */
-//static int sys_mycapset_call(cap_user_header_t header, const cap_user_data_t data)
-SYSCALL_DEFINE2(mycapset, cap_user_header_t, header, const cap_user_data_t, data)
+int sys_mycapset_call(cap_user_header_t header, const cap_user_data_t data)
+//SYSCALL_DEFINE2(mycapset, cap_user_header_t, header, const cap_user_data_t, data)
 {
 	struct __user_cap_data_struct kdata[_KERNEL_CAPABILITY_U32S];
 	unsigned i, tocopy, copybytes;
@@ -372,17 +366,17 @@ SYSCALL_DEFINE2(mycapset, cap_user_header_t, header, const cap_user_data_t, data
 	pid_t pid;
 	struct task_struct *task;
 
-pr_info("aaa1: pid = %d", header->pid);
+pr_info("aaa0: pid = %d\n", header->pid);
 	ret = cap_validate_magic(header, &tocopy);
-pr_info("aaa1: ret = %d", ret);
+pr_info("aaa1: ret = %d\n", ret);
 	if (ret != 0)
 		return ret;
 
-pr_info("aaa2: %d", header->pid);
+pr_info("aaa2: %d\n", header->pid);
 	if (get_user(pid, &header->pid))
 		return -EFAULT;
 
-pr_info("aaa3");
+pr_info("aaa3\n");
 	/* may only affect current now */
 //去除对pid的判断
 //	if (pid != 0 && pid != task_pid_vnr(current))
@@ -457,11 +451,6 @@ LOOKUP_SYMS(key_fsuid_changed);
 LOOKUP_SYMS(key_fsgid_changed);
 LOOKUP_SYMS(proc_id_connector);
 
-event_class_syscall_enter = *(struct trace_event_class *)kallsyms_lookup_name("event_class_syscall_enter");
-event_class_syscall_exit = *(struct trace_event_class *)kallsyms_lookup_name("event_class_syscall_exit");
-enter_syscall_print_funcs = *(struct trace_event_functions*)kallsyms_lookup_name("enter_syscall_print_funcs");
-exit_syscall_print_funcs = *(struct trace_event_functions*)kallsyms_lookup_name("exit_syscall_print_funcs");
-
 	ori_cred_jar = (struct kmem_cache **)kallsyms_lookup_name("cred_jar");
 	ori_suid_dumpable = (int *)kallsyms_lookup_name("suid_dumpable");
 	mysys_call_table = (unsigned long **)kallsyms_lookup_name("sys_call_table");	/* 获取系统调用服务首地址 */
@@ -471,7 +460,7 @@ exit_syscall_print_funcs = *(struct trace_event_functions*)kallsyms_lookup_name(
 
 	anything_saved = (int(*)(void))(mysys_call_table[__NR_syscall]);	/* 保存原始系统调用 */
 	orig_cr0 = clear_and_return_cr0();	/* 设置cr0可更改 */
-	mysys_call_table[__NR_syscall] = (unsigned long)&__x64_sys_mycapset;	/* 更改原始的系统调用服务地址 */
+	mysys_call_table[__NR_syscall] = (unsigned long)&sys_mycapset_call;	/* 更改原始的系统调用服务地址 */
 	setback_cr0(orig_cr0);	/* 设置为原始的只读cr0 */
 
 	return 0;
