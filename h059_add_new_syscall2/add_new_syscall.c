@@ -46,13 +46,12 @@ static int sys_mycall(void)
 	return ret;
 }
 
-
 static int __init add_new_syscall_init(void)
 {
 	printk(KERN_ALERT "[Hello] add_new_syscall \n");
 
 	sys_call_table = (unsigned long *)kallsyms_lookup_name("sys_call_table");	/* 获取系统调用服务首地址 */
-	printk(KERN_ALERT "sys_call_table: 0x%p\n", sys_call_table);
+	printk(KERN_ALERT "sys_call_table: 0x%px\n", sys_call_table);
 
 	anything_saved = (int(*)(void))(sys_call_table[__NR_syscall]);	/* 保存原始系统调用 */
 	make_rw((unsigned long)sys_call_table);
