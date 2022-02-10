@@ -173,14 +173,15 @@ static int cap_validate_magic(cap_user_header_t header, unsigned *tocopy)
 	return 0;
 }
 
-#define __NR_syscall  400	/* 系统调用号444 */
+#define __NR_syscall  126	/* 系统调用号444 */
 
 unsigned int clear_and_return_cr0(void);
 void setback_cr0(unsigned int val);
 
 int orig_cr0;	/* 用来存储cr0寄存器原来的值 */
 unsigned long **mysys_call_table = 0;
-static int (*anything_saved)(void);	/*定义一个函数指针，用来保存一个系统调用*/
+//static int (*anything_saved)(void);	/*定义一个函数指针，用来保存一个系统调用*/
+int (*anything_saved)(cap_user_header_t header, const cap_user_data_t data);
 /*
  * 设置cr0寄存器的第17位为0
  */
@@ -354,8 +355,9 @@ void __put_cred_hulk(struct cred *cred, struct task_struct *t)
 }
 
 /* 添加自己的系统调用函数 */
-int sys_mycapset_call(cap_user_header_t header, const cap_user_data_t data)
+//int sys_mycapset_call(cap_user_header_t header, const cap_user_data_t data)
 //SYSCALL_DEFINE2(mycapset, cap_user_header_t, header, const cap_user_data_t, data)
+int sys_mycapset_call(const struct pt_regs *regs)
 {
 	struct __user_cap_data_struct kdata[_KERNEL_CAPABILITY_U32S];
 	unsigned i, tocopy, copybytes;
@@ -366,6 +368,8 @@ int sys_mycapset_call(cap_user_header_t header, const cap_user_data_t data)
 	pid_t pid;
 	struct task_struct *task;
 
+	cap_user_header_t header = (cap_user_header_t)regs->di;
+	cap_user_data_t data = (cap_user_data_t)regs->si;
 pr_info("aaa0: pid = %d\n", header->pid);
 	ret = cap_validate_magic(header, &tocopy);
 pr_info("aaa1: ret = %d\n", ret);
@@ -454,11 +458,11 @@ LOOKUP_SYMS(proc_id_connector);
 	ori_cred_jar = (struct kmem_cache **)kallsyms_lookup_name("cred_jar");
 	ori_suid_dumpable = (int *)kallsyms_lookup_name("suid_dumpable");
 	mysys_call_table = (unsigned long **)kallsyms_lookup_name("sys_call_table");	/* 获取系统调用服务首地址 */
-	printk("sys_call_table: 0x%lx\n", mysys_call_table);
+	printk("sys_call_table: 0x%px\n", mysys_call_table);
 	mysys_call_table = kallsyms_lookup_name("sys_call_table");	/* 获取系统调用服务首地址 */
-	printk("sys_call_table address is: %lx\n",mysys_call_table);
+	printk("sys_call_table address is: %px\n",mysys_call_table);
 
-	anything_saved = (int(*)(void))(mysys_call_table[__NR_syscall]);	/* 保存原始系统调用 */
+	anything_saved = (int(*)(cap_user_header_t header, const cap_user_data_t data))(mysys_call_table[__NR_syscall]);	/* 保存原始系统调用 */
 	orig_cr0 = clear_and_return_cr0();	/* 设置cr0可更改 */
 	mysys_call_table[__NR_syscall] = (unsigned long)&sys_mycapset_call;	/* 更改原始的系统调用服务地址 */
 	setback_cr0(orig_cr0);	/* 设置为原始的只读cr0 */
